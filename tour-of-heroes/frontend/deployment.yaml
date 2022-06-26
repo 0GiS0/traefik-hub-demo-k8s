@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tour-of-heroes-web
+    role: frontend
+  name: tour-of-heroes-web
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: tour-of-heroes-web
+      role: frontend
+  template:
+    metadata:
+      labels:
+        app: tour-of-heroes-web
+        role: frontend
+    spec:
+      containers:
+        - image: ghcr.io/0gis0/tour-of-heroes-flask/tour-of-heroes-flask:e4c67bb
+          name: tour-of-heroes-web
+          ports:
+            - containerPort: 5002
+              name: web
+          env:
+            - name: API_URL
+              value: http://tour-of-heroes-api/api/hero
